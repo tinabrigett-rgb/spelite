@@ -1,0 +1,402 @@
+
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lieldienu spēle</title>
+
+<style>
+
+body{
+font-family:Arial;
+text-align:center;
+background:#fff8e1;
+margin:0;
+padding:20px;
+}
+
+button{
+padding:15px;
+font-size:18px;
+margin:10px;
+width:80%;
+max-width:300px;
+}
+
+.screen{display:none;}
+.active{display:block;}
+
+#big{
+font-size:200px;
+margin-top:80px;
+}
+
+#timer{font-size:22px;margin:15px;}
+
+.red{
+color:red;
+font-weight:bold;
+font-size:32px;
+}
+
+.letters button{
+width:70px;
+font-size:25px;
+margin:8px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="start" class="screen active">
+<h1>Vai esi gatavs sākt?</h1>
+<button onclick="startQuiz()">Sākt</button>
+</div>
+
+<div id="quiz" class="screen">
+<h1>1. uzdevums</h1>
+<div id="timer">Laiks: 30</div>
+<div id="question"></div>
+<div id="answers"></div>
+</div>
+
+<div id="num4" class="screen">
+<div id="big">4</div>
+<button onclick="showTask2()">Nākošais</button>
+</div>
+
+<div id="task2" class="screen">
+<h1>2. uzdevums</h1>
+<p>Izmantojot telefonā kompasu atrodi prasīto<br><b>127 grādi 56 soļi</b></p>
+
+<button onclick="showCode()">Sapratu!</button>
+
+<div id="codeBox" style="display:none">
+<p>Ievadi kodu</p>
+<input id="codeInput">
+<br>
+<button onclick="checkCode()">Apstiprināt</button>
+</div>
+</div>
+
+<div id="num7" class="screen">
+<div id="big">7</div>
+<button onclick="showTask3()">Nākošais</button>
+</div>
+
+<div id="task3" class="screen">
+<h1>3. uzdevums</h1>
+<p>Pa divām minūtēm ir jāaiziet līdz tiltam un jāieraksta vārds</p>
+
+<div id="timer3">2:10</div>
+
+<input id="wordInput">
+<br>
+<button onclick="checkWord()">Apstiprināt</button>
+</div>
+
+<div id="num2" class="screen">
+<div id="big">2</div>
+<div style="font-size:30px;">nākošais</div>
+<button onclick="showTask4()">Nākošais</button>
+</div>
+
+<div id="task4" class="screen">
+<h1>4. uzdevums</h1>
+<p>Aizej uz salas, un tur būs šī uzdevuma turpinājums.</p>
+<button onclick="showWordGame()">Sapratu!</button>
+</div>
+
+<div id="wordGame" class="screen">
+<h1>Izvēlies pareizo vārdu</h1>
+<div id="wordOptions"></div>
+</div>
+
+<div id="num0" class="screen">
+<div id="big">0</div>
+<div style="font-size:30px;">nākošais</div>
+<button onclick="showTask5()">Nākošais</button>
+</div>
+
+<div id="task5" class="screen">
+<h1>5. uzdevums</h1>
+<p>dodies uz vietu kas ir iezīmēta lapā.</p>
+<button onclick="showHint()">Kur atrodas lapa?</button>
+</div>
+
+<div id="hint" class="screen">
+<p class="red">KAUT KUR PA KREISI, KAUT KAS SARKANS PLĪVO, PROM NO ŪDENS</p>
+<button onclick="showTask6()">izlasīju</button>
+</div>
+
+<div id="task6" class="screen">
+<p class="red">NU?? KO GAIDI, EJ TUR KUR NORĀDĪTS!</p>
+<button onclick="showLetters()">labi</button>
+</div>
+
+<div id="letters" class="screen">
+<h1>Izvēlies pareizo burtu</h1>
+<div class="letters" id="letterButtons"></div>
+</div>
+
+<div id="wrong" class="screen">
+<h1>Nu cik žēl! Mēģini no sākuma!</h1>
+</div>
+
+<script>
+
+let questions=[
+{q:"Kādi svētki ir Lieldienas?",a:["Pavasara","Ziemas","Rudens"],correct:0},
+{q:"Ko dara Lieldienās?",a:["Krāso olas","Rotā eglīti","Cep kūku"],correct:0},
+{q:"Ko ripina?",a:["Olas","Akmeņus","Mašīnas"],correct:0}
+];
+
+let current=0;
+let timer;
+let time=30;
+
+function switchScreen(id){
+document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+document.getElementById(id).classList.add("active");
+}
+
+function wrongGame(){
+switchScreen("wrong");
+setTimeout(function(){location.reload();},4000);
+}
+
+function startQuiz(){
+switchScreen("quiz");
+showQuestion();
+}
+
+function showQuestion(){
+
+let q=questions[current];
+document.getElementById("question").textContent=q.q;
+
+let answers=document.getElementById("answers");
+answers.innerHTML="";
+
+q.a.forEach(function(ans,i){
+
+let btn=document.createElement("button");
+btn.textContent=ans;
+
+btn.onclick=function(){
+if(i===q.correct){nextQuestion();}
+else{wrongGame();}
+};
+
+answers.appendChild(btn);
+
+});
+
+startTimer();
+}
+
+function startTimer(){
+
+time=30;
+document.getElementById("timer").textContent="Laiks: "+time;
+
+timer=setInterval(function(){
+
+time--;
+document.getElementById("timer").textContent="Laiks: "+time;
+
+if(time<=0){wrongGame();}
+
+},1000);
+
+}
+
+function nextQuestion(){
+
+clearInterval(timer);
+current++;
+
+if(current<questions.length){
+showQuestion();
+}else{
+switchScreen("num4");
+}
+
+}
+
+function showTask2(){switchScreen("task2");}
+
+function showCode(){
+document.getElementById("codeBox").style.display="block";
+}
+
+function checkCode(){
+
+let code=document.getElementById("codeInput").value;
+
+if(code==="6547"){
+switchScreen("num7");
+}else{
+wrongGame();
+}
+
+}
+
+function showTask3(){
+
+switchScreen("task3");
+
+let seconds=130;
+
+let timer3=setInterval(function(){
+
+seconds--;
+
+let m=Math.floor(seconds/60);
+let s=seconds%60;
+
+if(s<10){s="0"+s;}
+
+document.getElementById("timer3").textContent=m+":"+s;
+
+if(seconds<=0){
+clearInterval(timer3);
+wrongGame();
+}
+
+},1000);
+
+}
+
+function checkWord(){
+
+let word=document.getElementById("wordInput").value.toLowerCase();
+
+if(word==="lieldienas lielas"){
+switchScreen("num2");
+}else{
+wrongGame();
+}
+
+}
+
+/* WORD GAME */
+
+let wordStep=0;
+
+let wordQuestions=[
+["zaķis","trusis","ola"],
+["augstu","ripo","ēd"],
+["lejā","lec","salātus"]
+];
+
+let correctWords=["ola","augstu","lec"];
+
+function showTask4(){
+switchScreen("task4");
+}
+
+function showWordGame(){
+switchScreen("wordGame");
+wordStep=0;
+showWordOptions();
+}
+
+function showWordOptions(){
+
+let container=document.getElementById("wordOptions");
+container.innerHTML="";
+
+wordQuestions[wordStep].forEach(function(word){
+
+let btn=document.createElement("button");
+btn.textContent=word;
+
+btn.onclick=function(){
+
+if(word===correctWords[wordStep]){
+
+wordStep++;
+
+if(wordStep<wordQuestions.length){
+showWordOptions();
+}else{
+switchScreen("num0");
+}
+
+}else{
+wrongGame();
+}
+
+};
+
+container.appendChild(btn);
+
+});
+
+}
+
+/* TASK 5 */
+
+function showTask5(){
+switchScreen("task5");
+}
+
+function showHint(){
+switchScreen("hint");
+}
+
+function showTask6(){
+switchScreen("task6");
+}
+
+/* LETTER GAME */
+
+function showLetters(){
+
+switchScreen("letters");
+
+let alphabet="ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+
+for(let i=alphabet.length-1;i>0;i--){
+let j=Math.floor(Math.random()*(i+1));
+let temp=alphabet[i];
+alphabet[i]=alphabet[j];
+alphabet[j]=temp;
+}
+
+let letters=alphabet.slice(0,10);
+letters[3]="H";
+
+let container=document.getElementById("letterButtons");
+container.innerHTML="";
+
+letters.forEach(function(letter,index){
+
+let btn=document.createElement("button");
+btn.textContent=letter;
+
+btn.onclick=function(){
+
+if(index===3){
+alert("Pareizi!");
+location.reload();
+}else{
+wrongGame();
+}
+
+};
+
+container.appendChild(btn);
+
+});
+
+}
+
+</script>
+
+</body>
+</html>
