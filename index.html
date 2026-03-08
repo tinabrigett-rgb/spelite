@@ -141,6 +141,55 @@ margin:8px;
 <h1>Izvēlies pareizo burtu</h1>
 <div class="letters" id="letterButtons"></div>
 </div>
+  <div id="task7" class="screen">
+<h1>6. uzdevums</h1>
+<p>MOO</p>
+
+<input id="mooInput">
+<br>
+<button onclick="checkMoo()">Apstiprināt</button>
+</div>
+
+
+<div id="task8" class="screen">
+<h1>7. uzdevums</h1>
+
+<p>
+Šeit tiek makšķerēts, lekts, staigāts, rāpies augšā - dodies uz šo vietu
+</p>
+
+<input id="place2">
+<br>
+<button onclick="checkPlace2()">Apstiprināt</button>
+</div>
+
+
+<div id="task9" class="screen">
+<h1>8. uzdevums</h1>
+
+<p>
+pa labi 25 soļi, metu bumbu
+</p>
+
+<input id="kneeInput">
+<br>
+<button onclick="checkKnee()">Apstiprināt</button>
+</div>
+
+
+<div id="task10" class="screen">
+
+<h1>9. uzdevums</h1>
+
+<p style="font-weight:bold;">
+dodies kur tev teikts
+</p>
+
+<button onclick="alert('Turpinājums vēlāk :)')">
+Nākošais
+</button>
+
+</div>
 
 <div id="wrong" class="screen">
 <h1>Nu cik žēl! Mēģini no sākuma!</h1>
@@ -383,8 +432,7 @@ btn.textContent=letter;
 btn.onclick=function(){
 
 if(index===3){
-alert("Pareizi!");
-location.reload();
+showTask7();
 }else{
 wrongGame();
 }
@@ -396,9 +444,51 @@ container.appendChild(btn);
 });
 
 }
+function showTask7(){
+switchScreen("task7");
+}
 
+function checkMoo(){
+
+let val=document.getElementById("mooInput").value.toLowerCase();
+
+if(val==="ej"){
+switchScreen("task8");
+}else{
+wrongGame();
+}
+
+}
+
+
+function checkPlace2(){
+
+let val=document.getElementById("place2").value.toLowerCase();
+
+if(val==="uz"){
+switchScreen("task9");
+}else{
+wrongGame();
+}
+
+}
+
+
+function checkKnee(){
+
+let val=document.getElementById("kneeInput").value.toLowerCase();
+
+if(val==="ceļgalu"){
+switchScreen("task10");
+}else{
+wrongGame();
+}
+
+}
 </script>
+  
 
 </body>
 
 </html>
+
