@@ -53,7 +53,23 @@ margin:8px;
 
 <div id="start" class="screen active">
 <h1>Vai esi gatavs sākt?</h1>
-<button onclick="startQuiz()">Sākt</button>
+<button onclick="showRules()">Sākt</button>
+</div>
+  <div id="rules" class="screen">
+
+<h1>Noteikumi</h1>
+
+<p>
+1. Pēc katra pareizi izpildīta uzdevuma tiks atklāts cipars,
+<b>kas būs svarīgs vēlāk. Šie cipari ir jāatceras.</b>
+</p>
+
+<p>
+2. <b>Kas tiek rakstīts pēc 7. uzd ir jāatceras</b>
+</p>
+
+<button onclick="startQuiz()">Sapratu</button>
+
 </div>
 
 <div id="quiz" class="screen">
@@ -71,7 +87,7 @@ margin:8px;
 <div id="task2" class="screen">
 <h1>2. uzdevums</h1>
 <p>Izmantojot telefonā kompasu atrodi prasīto<br><b>127 grādi 56 soļi</b></p>
-
+<button onclick="showCompass()">Kā lietot kompasu</button>
 <button onclick="showCode()">Sapratu!</button>
 
 <div id="codeBox" style="display:none">
@@ -81,7 +97,29 @@ margin:8px;
 <button onclick="checkCode()">Apstiprināt</button>
 </div>
 </div>
+<div id="compassHelp" class="screen">
 
+<h1>Kā lietot kompasu</h1>
+
+<p>
+1. Ielādē kompasa aplikāciju telefonā vai ja ir iPhone kompasa aplikācija ir jau telefonā.
+</p>
+
+<p>
+2. Uz kompasa griezies kamēr rādās vajadzīgie grādi.
+</p>
+
+<p>
+3. Ej uz grādu virzienu (bultiņa kas atrodas uz grādiem ir tas virziens)
+</p>
+
+<p>
+4. Soļus skaita ik pēc diviem (1. LABĀ, kreisā 2. LABĀ, kreisā)
+</p>
+
+<button onclick="showTask2()">Atpakaļ</button>
+
+</div>
 <div id="num7" class="screen">
 <div id="big">7</div>
 <button onclick="showTask3()">Nākošais</button>
@@ -493,12 +531,19 @@ wrongGame();
   function showEnd(){
 switchScreen("end");
 }
+  function showRules(){
+switchScreen("rules");
+}
+  function showCompass(){
+switchScreen("compassHelp");
+}
 </script>
   
 
 </body>
 
 </html>
+
 
 
 
