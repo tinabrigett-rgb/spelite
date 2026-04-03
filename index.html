@@ -86,7 +86,7 @@ margin:8px;
 
 <div id="task2" class="screen">
 <h1>2. uzdevums</h1>
-<p>Izmantojot telefonā kompasu atrodi prasīto<br><b>127 grādi 56 soļi</b></p>
+<p>Izmantojot telefonā kompasu atrodi prasīto, nostājies uz kruta lai sāktu<br><b>354 grādi 56 soļi</b></p>
 <button onclick="showCompass()">Kā lietot kompasu</button>
 <button onclick="showCode()">Sapratu!</button>
 
@@ -129,7 +129,7 @@ margin:8px;
 <h1>3. uzdevums</h1>
 <p>Pa divām minūtēm ir jāaiziet līdz tiltam un jāieraksta vārds</p>
 
-<div id="timer3">2:10</div>
+<div id="timer3">3:10</div>
 
 <input id="wordInput">
 <br>
@@ -248,8 +248,11 @@ let questions=[
 let current=0;
 let timer;
 let time=30;
+  let timer3;
 
 function switchScreen(id){
+  clearInterval(timer);   // 1. uzdevuma taimeris
+clearInterval(timer3);  // 3. uzdevuma taimeris
 document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
 document.getElementById(id).classList.add("active");
 }
@@ -342,7 +345,7 @@ switchScreen("task3");
 
 let seconds=130;
 
-let timer3=setInterval(function(){
+timer3 = setInterval(function(){
 
 seconds--;
 
@@ -367,6 +370,7 @@ function checkWord(){
 let word=document.getElementById("wordInput").value.toLowerCase();
 
 if(word==="lieldienas lielas"){
+  clearInterval(timer3);
 switchScreen("num2");
 }else{
 wrongGame();
